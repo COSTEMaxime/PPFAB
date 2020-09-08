@@ -18,8 +18,8 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -38,8 +38,8 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { true, true, true, true, true },
-            { true, true, true, true, true }
+                    { true, true, true, true, true },
+                    { true, true, true, true, true }
                 }
             };
 
@@ -58,11 +58,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, true, false, true, false },
-                { false, false, true, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, true, false, true, false },
+                    { false, false, true, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -72,11 +72,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, true, false, true, false },
-                { false, false, true, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, true, false, true, false },
+                    { false, false, true, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -97,11 +97,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, true, false, true, false },
-                { false, false, true, false, false },
-                { false, true, false, true, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, true, false, true, false },
+                    { false, false, true, false, false },
+                    { false, true, false, true, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -111,11 +111,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, true, false, true, false },
-                { false, false, true, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, true, false, true, false },
+                    { false, false, true, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -135,11 +135,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, false, true, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, false, true, false, false },
+                    { false, false, false, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -149,11 +149,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, false, false, false },
+                    { false, false, false, false, false },
+                    { false, false, false, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -173,11 +173,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, true, false, true, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, true, false, true, false },
+                    { false, false, false, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -187,11 +187,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, false, true, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, false, true, false, false },
+                    { false, false, false, false, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -211,11 +211,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, true, true, true, false },
-                { false, true, true, true, false },
-                { false, true, true, true, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, true, true, true, false },
+                    { false, true, true, true, false },
+                    { false, true, true, true, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -225,11 +225,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, true, false, false },
-                { false, true, false, true, false },
-                { true, false, false, false, true },
-                { false, true, false, true, false },
-                { false, false, true, false, false }
+                    { false, false, true, false, false },
+                    { false, true, false, true, false },
+                    { true, false, false, false, true },
+                    { false, true, false, true, false },
+                    { false, false, true, false, false }
                 }
             };
 
@@ -249,11 +249,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, false, false, true, false },
-                { false, true, true, true, false },
-                { false, false, false, false, false }
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, false, false, true, false },
+                    { false, true, true, true, false },
+                    { false, false, false, false, false }
                 }
             };
 
@@ -263,11 +263,11 @@ namespace NUnitTestProject1
                 height = height,
                 board = new bool[height, width]
                 {
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, true, false, false },
-                { false, false, false, true, true },
-                { false, false, true, true, false }
+                    { false, false, false, false, false },
+                    { false, false, false, false, false },
+                    { false, false, true, false, false },
+                    { false, false, false, true, true },
+                    { false, false, true, true, false }
                 }
             };
 

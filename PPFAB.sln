@@ -7,7 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01_ASCII_Art", "01_ASCII_Ar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02_GameOfLife", "02_GameOfLife\02_GameOfLife.csproj", "{858F6D88-0E47-41B5-8C80-505E163C598C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02_GameOfLifeTest", "02_GameOfLifeTest\02_GameOfLifeTest.csproj", "{4B0C218D-A2B3-4236-91A2-341825E2AF38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02_GameOfLifeTest", "02_GameOfLifeTest\02_GameOfLifeTest.csproj", "{4B0C218D-A2B3-4236-91A2-341825E2AF38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_TicTacToe", "03_TicTacToe\03_TicTacToe.csproj", "{1769E76B-1001-46A5-9584-2B1E498503C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_TicTacToeTest", "03_TicTacToeTest\03_TicTacToeTest.csproj", "{240E04F0-CCC6-4671-9EF9-D35A28CE3AE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{4B0C218D-A2B3-4236-91A2-341825E2AF38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B0C218D-A2B3-4236-91A2-341825E2AF38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B0C218D-A2B3-4236-91A2-341825E2AF38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1769E76B-1001-46A5-9584-2B1E498503C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1769E76B-1001-46A5-9584-2B1E498503C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1769E76B-1001-46A5-9584-2B1E498503C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1769E76B-1001-46A5-9584-2B1E498503C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240E04F0-CCC6-4671-9EF9-D35A28CE3AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240E04F0-CCC6-4671-9EF9-D35A28CE3AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240E04F0-CCC6-4671-9EF9-D35A28CE3AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240E04F0-CCC6-4671-9EF9-D35A28CE3AE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
