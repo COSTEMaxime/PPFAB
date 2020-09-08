@@ -51,7 +51,9 @@
     <Compile Include="IPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomIAPlayer.cs" />
+    <Compile Include="RandomIA.cs" />
+    <Compile Include="SmartWinningMoveIA.cs" />
+    <Compile Include="WinningMoveIA.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

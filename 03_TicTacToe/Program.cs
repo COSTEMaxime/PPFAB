@@ -10,9 +10,10 @@ namespace _03_TicTacToe
     {
         static void Main(string[] args)
         {
-            IPlayer player1 = new HumanPlayer("Player1", 'X');
-            IPlayer player2 = new HumanPlayer("Player2", 'O');
-            Engine engine = new Engine(player1, player2);
+            const int boardSize = 3;
+            IPlayer player1 = new WinningMoveIA("Player1", 'X', boardSize);
+            IPlayer player2 = new WinningMoveIA("Player2", 'O', boardSize);
+            Engine engine = new Engine(player1, player2, boardSize);
             engine.Render();
 
             while (!engine.IsGameOver())

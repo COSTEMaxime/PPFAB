@@ -10,7 +10,7 @@ namespace _03_TicTacToe
             Name = Console.ReadLine();
         }
 
-        internal override Tuple<int, int> AskNextMove()
+        internal override Tuple<int, int> AskNextMove(char[,] board = null)
         {
             Console.Write("Player " + Name + " move. X coordinate : ");
             int x = safeUserInput();

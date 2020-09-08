@@ -12,6 +12,6 @@ namespace _03_TicTacToe
             Symbol = symbol;
         }
 
-        internal abstract Tuple<int, int> AskNextMove();
+        internal abstract Tuple<int, int> AskNextMove(char[,] board = null);
     }
 }

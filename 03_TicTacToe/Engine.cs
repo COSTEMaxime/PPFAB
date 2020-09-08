@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.Remoting.Metadata;
 using System.Text;
 
@@ -9,9 +10,10 @@ namespace _03_TicTacToe
         public IPlayer? Winner { get; private set; } = null;
 
         private char[,] board;
+        private readonly int boardSize;
         private IPlayer[] players;
         private int currentPlayer;
-        private const char EMPTY_CHAR = ' ';
+        public static readonly char EMPTY_CHAR = ' ';
 
         public Engine(IPlayer player1, IPlayer player2, int boardSize = 3)
         {
@@ -23,6 +25,7 @@ namespace _03_TicTacToe
             currentPlayer = 0;
 
             board = BoardGenerator.Generate(boardSize, EMPTY_CHAR);
+            this.boardSize = boardSize;
         }
 
         public Engine(IPlayer player1, IPlayer player2, char[,] board)
@@ -40,23 +43,22 @@ namespace _03_TicTacToe
             }
 
             this.board = board;
+            this.boardSize = board.GetLength(0);
         }
 
         public bool IsGameOver()
         {
-            char c;
-            bool win;
+            var boardLines = BoardGenerator.GetAllBoardLinesCoordinates(boardSize);
 
-            // horizontal
-            for (int i = 0; i < board.GetLength(0); i++)
+            foreach (var line in boardLines)
             {
-                if (board[i, 0] == EMPTY_CHAR) { continue; }
+                char c = board[line.First().Item1, line.First().Item2];
+                if (c == EMPTY_CHAR) { continue; }
 
-                c = board[i, 0];
-                win = true;
-                for (int j = 1; j < board.GetLength(1); j++)
+                bool win = true;
+                foreach (var coord in line)
                 {
-                    if (c != board[i, j])
+                    if (c != board[coord.Item1, coord.Item2])
                     {
                         win = false;
                         break;
@@ -69,77 +71,13 @@ namespace _03_TicTacToe
                     return true;
                 }
             }
-
-            // vertical
-            for (int j = 0; j < board.GetLength(1); j++)
-            {
-                if (board[0, j] == EMPTY_CHAR) { continue; }
-
-                win = true;
-                c = board[0, j];
-                for (int i = 1; i < board.GetLength(0); i++)
-                {
-                    if (c != board[i, j])
-                    {
-                        win = false;
-                        break;
-                    }
-                }
-
-                if (win)
-                {
-                    Winner = getWinnerFromSymbol(c);
-                    return true;
-                }
-            }
-
-            // diagonals
-            if (board[0, 0] == EMPTY_CHAR || 
-                board[0, board.GetLength(0) - 1] == EMPTY_CHAR)
-            {
-                return false;
-            }
-
-            c = board[0, 0];
-            win = true;
-            for (int i = 1; i < board.GetLength(0); i++)
-            {
-                if (board[i, i] != c)
-                {
-                    win = false;
-                    break;
-                }
-            }
-
-            if (win)
-            {
-                Winner = getWinnerFromSymbol(c);
-                return true;
-            }
-
-            c = board[0, board.GetLength(0) - 1];
-            win = true;
-            for (int i = 1; i < board.GetLength(0); i++)
-            {
-                if (board[i, board.GetLength(0) - 1 - i] != c)
-                {
-                    win = false;
-                    break;
-                }
-            }
-
-            if (win)
-            {
-                Winner = getWinnerFromSymbol(c);
-                return true;
-            }
-
 
             if (IsDraw())
             {
                 Winner = null;
                 return true;
             }
+
             return false;
         }
 
@@ -173,13 +111,13 @@ namespace _03_TicTacToe
             Console.WriteLine("------");
         }
 
-        internal void NextMove()
+        public void NextMove()
         {
-            Tuple<int, int> move = players[currentPlayer].AskNextMove();
+            Tuple<int, int> move = players[currentPlayer].AskNextMove(board);
             while (!checkPlayerMove(move))
             {
                 Console.WriteLine("Invalid coordinates. Try again");
-                move = players[currentPlayer].AskNextMove();
+                move = players[currentPlayer].AskNextMove(board);
             }
 
 

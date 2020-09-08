@@ -6,7 +6,7 @@ using System.Security.Authentication.ExtendedProtection;
 namespace _03_TicTacToeTest
 {
     [TestClass]
-    public class UnitTest1
+    public class GameEngineTest
     {
         [TestMethod]
         public void BoardGeneratorTest()
@@ -34,7 +34,7 @@ namespace _03_TicTacToeTest
                 { ' ', ' ', ' ' },
             };
 
-            Engine engine = new Engine(new RandomIAPlayer("AI_1", 'X', 2), new RandomIAPlayer("AI_2", 'O', 2), board);
+            Engine engine = new Engine(new RandomIA("AI_1", 'X', 2), new RandomIA("AI_2", 'O', 2), board);
         }
 
         [TestMethod]
@@ -48,8 +48,8 @@ namespace _03_TicTacToeTest
                 { 'O', 'X', 'O' }
             };
 
-            IPlayer player1 = new RandomIAPlayer("AI_1", 'X', size);
-            IPlayer player2 = new RandomIAPlayer("AI_2", 'O', size);
+            IPlayer player1 = new RandomIA("AI_1", 'X', size);
+            IPlayer player2 = new RandomIA("AI_2", 'O', size);
             Engine engine = new Engine(player1, player2, board);
 
             Assert.AreEqual(true, engine.IsGameOver());
@@ -67,8 +67,8 @@ namespace _03_TicTacToeTest
                 { 'O', ' ', 'O' }
             };
 
-            IPlayer player1 = new RandomIAPlayer("AI_1", 'X', size);
-            IPlayer player2 = new RandomIAPlayer("AI_2", 'O', size);
+            IPlayer player1 = new RandomIA("AI_1", 'X', size);
+            IPlayer player2 = new RandomIA("AI_2", 'O', size);
             IPlayer expected = player1;
             Engine engine = new Engine(player1, player2, board);
 
@@ -87,8 +87,8 @@ namespace _03_TicTacToeTest
                 { 'O', ' ', 'O' }
             };
 
-            IPlayer player1 = new RandomIAPlayer("AI_1", 'X', size);
-            IPlayer player2 = new RandomIAPlayer("AI_2", 'O', size);
+            IPlayer player1 = new RandomIA("AI_1", 'X', size);
+            IPlayer player2 = new RandomIA("AI_2", 'O', size);
             IPlayer expected = player2;
             Engine engine = new Engine(player1, player2, board);
 
@@ -107,8 +107,8 @@ namespace _03_TicTacToeTest
                 { 'O', ' ', 'X' }
             };
 
-            IPlayer player1 = new RandomIAPlayer("AI_1", 'X', size);
-            IPlayer player2 = new RandomIAPlayer("AI_2", 'O', size);
+            IPlayer player1 = new RandomIA("AI_1", 'X', size);
+            IPlayer player2 = new RandomIA("AI_2", 'O', size);
             IPlayer expected = player1;
             Engine engine = new Engine(player1, player2, board);
 
@@ -127,8 +127,8 @@ namespace _03_TicTacToeTest
                 { 'X', ' ', 'X' }
             };
 
-            IPlayer player1 = new RandomIAPlayer("AI_1", 'X', size);
-            IPlayer player2 = new RandomIAPlayer("AI_2", 'O', size);
+            IPlayer player1 = new RandomIA("AI_1", 'X', size);
+            IPlayer player2 = new RandomIA("AI_2", 'O', size);
             IPlayer expected = player1;
             Engine engine = new Engine(player1, player2, board);
 
