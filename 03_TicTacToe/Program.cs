@@ -11,10 +11,10 @@ namespace _03_TicTacToe
         static void Main(string[] args)
         {
             const int boardSize = 3;
-            IPlayer player1 = new SmartWinningMoveIA("Player1", 'X', boardSize);
-            IPlayer player2 = new WinningMoveIA("Player2", 'O', boardSize);
+            IPlayer player1 = new MinimaxIA("Player1", 'X', boardSize);
+            IPlayer player2 = new MinimaxIA("Player2", 'O', boardSize);
 
-            repeatPlay(player1, player2, boardSize, 50);
+            repeatPlay(player1, player2, boardSize, 10);
             Console.ReadKey();
         }
 

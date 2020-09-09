@@ -20,7 +20,7 @@ namespace _03_TicTacToe
 
         protected Tuple<int, int> findWinningMove(char[,] board, char symbol)
         {
-            List<List<Tuple<int, int>>> boardLines = BoardGenerator.GetAllBoardLinesCoordinates(boardSize);
+            List<List<Tuple<int, int>>> boardLines = BoardUtils.GetAllBoardLinesCoordinates(boardSize);
 
             foreach (var line in boardLines)
             {

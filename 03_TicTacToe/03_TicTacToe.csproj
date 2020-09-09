@@ -46,9 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardGenerator.cs" />
+    <Compile Include="BoardUtils.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="HumanPlayer.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="MinimaxIA.cs" />
+    <Compile Include="PlayerManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomIA.cs" />

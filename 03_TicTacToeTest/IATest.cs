@@ -108,6 +108,7 @@ namespace _03_TicTacToeTest
 
             engine.NextMove();
             engine.NextMove();
+
             Assert.AreEqual(false, engine.IsGameOver());
         }
 
