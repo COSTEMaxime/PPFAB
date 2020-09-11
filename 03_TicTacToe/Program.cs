@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace _03_TicTacToe
@@ -14,7 +16,11 @@ namespace _03_TicTacToe
             IPlayer player1 = new MinimaxIA("Player1", 'X', boardSize);
             IPlayer player2 = new MinimaxIA("Player2", 'O', boardSize);
 
-            repeatPlay(player1, player2, boardSize, 10);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            repeatPlay(player1, player2, boardSize, 50);
+            stopwatch.Stop();
+            Console.WriteLine("Time : " + stopwatch.Elapsed);
             Console.ReadKey();
         }
 
