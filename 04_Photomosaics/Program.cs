@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -17,6 +18,10 @@ namespace _04_Photomosaics
             const string datasetPath = @"../../images/";
             const int scale = 5;
             const int samplingSizePx = 4;
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             var imageMap = BuildImageMapFromDataset(datasetPath, new Size(scale * (samplingSizePx), scale * (samplingSizePx)));
 
             Image image = Image.FromFile(@"ascii-pineapple.jpg");
@@ -24,14 +29,14 @@ namespace _04_Photomosaics
 
             using (Bitmap bmp = new Bitmap(image))
             {
-                for (int i = 0; i < bmp.Height; i += samplingSizePx)
+                using (Graphics g = Graphics.FromImage(newImage))
                 {
-                    for (int j = 0; j < bmp.Width; j += samplingSizePx)
+                    for (int i = 0; i < bmp.Height; i += samplingSizePx)
                     {
-                        Color average = GetAverageColor(bmp, new Rectangle(j, i, samplingSizePx, samplingSizePx));
-                        Bitmap closestImage = FindClosestImageByColor(imageMap, average);
-                        using (Graphics g = Graphics.FromImage(newImage))
+                        for (int j = 0; j < bmp.Width; j += samplingSizePx)
                         {
+                            Color average = GetAverageColor(bmp, new Rectangle(j, i, samplingSizePx, samplingSizePx));
+                            Bitmap closestImage = FindClosestImageByColor(imageMap, average);
                             g.DrawImage(closestImage, new Point(j * scale, i * scale));
                         }
                     }
@@ -39,54 +44,85 @@ namespace _04_Photomosaics
             }
             newImage.Save("new2.jpg");
 
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
         }
 
-        private static Bitmap FindClosestImageByColor(IDictionary<Color, Bitmap> imageMap, Color average)
+        private static Bitmap FindClosestImageByColor(IDictionary<Color, List<Tuple<Color, Bitmap>>> imageMap, Color average)
         {
-            if (imageMap.ContainsKey(average))
+            Color cacheKey = RoundToColor(average);
+            List<Tuple<Color, Bitmap>> entry = null;
+            int difference = int.MaxValue;
+
+            if (imageMap.ContainsKey(cacheKey))
             {
-                return imageMap[average];
+                entry = imageMap[cacheKey];
             }
             else
             {
-                int difference = int.MaxValue;
-                //double difference = double.MaxValue;
-                Bitmap closest = null;
-
                 foreach (var item in imageMap)
                 {
                     int currentDifference = Math.Abs(item.Key.R - average.R)
                         + Math.Abs(item.Key.G - average.G)
                         + Math.Abs(item.Key.B - average.B);
 
-                    //double currentDifference = Math.Sqrt(Math.Pow(item.Key.R - average.R, 2)
-                    //    + Math.Pow(item.Key.G - average.G, 2)
-                    //    + Math.Pow(item.Key.B - average.B, 2));
-
                     if (currentDifference < difference)
                     {
                         difference = currentDifference;
-                        closest = item.Value;
+                        entry = item.Value;
                     }
                 }
-
-                return closest;
             }
+
+            //double difference = double.MaxValue;
+            difference = int.MaxValue;
+            Bitmap closest = null;
+
+            foreach (var item in entry)
+            {
+                int currentDifference = Math.Abs(item.Item1.R - average.R)
+                    + Math.Abs(item.Item1.G - average.G)
+                    + Math.Abs(item.Item1.B - average.B);
+
+                //double currentDifference = Math.Sqrt(Math.Pow(item.Key.R - average.R, 2)
+                //    + Math.Pow(item.Key.G - average.G, 2)
+                //    + Math.Pow(item.Key.B - average.B, 2));
+
+                if (currentDifference < difference)
+                {
+                    difference = currentDifference;
+                    closest = item.Item2;
+                }
+            }
+
+            return closest;
         }
 
-        static IDictionary<Color, Bitmap> BuildImageMapFromDataset(string path, Size size)
+        static IDictionary<Color, List<Tuple<Color, Bitmap>>> BuildImageMapFromDataset(string path, Size size)
         {
-            IDictionary<Color, Bitmap> imageMap = new Dictionary<Color, Bitmap>();
+            IDictionary<Color, List<Tuple<Color, Bitmap>>> imageMap = new Dictionary<Color, List<Tuple<Color, Bitmap>>>();
             foreach (string file in Directory.GetFiles(path))
             {
                 Bitmap bmp = new Bitmap(Image.FromFile(file), size);
                 Color average = GetAverageColor(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                if (!imageMap.ContainsKey(average))
+                Color cacheKey = RoundToColor(average);
+                if (!imageMap.ContainsKey(cacheKey))
                 {
-                    imageMap.Add(average, bmp);
+                    imageMap.Add(cacheKey, new List<Tuple<Color, Bitmap>>());
                 }
+
+                imageMap[cacheKey].Add(new Tuple<Color, Bitmap>(average, bmp));
             }
             return imageMap;
+        }
+
+        private static Color RoundToColor(Color average)
+        {
+            return Color.FromArgb(
+                (int)Math.Round(average.R / 10.0) * 10,
+                (int)Math.Round(average.R / 10.0) *10,
+                (int)Math.Round(average.R / 10.0) *10
+            );
         }
 
         private static Color GetAverageColor(Bitmap bmp, Rectangle zone)
