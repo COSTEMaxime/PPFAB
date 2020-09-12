@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +15,20 @@ namespace _04_Photomosaics
 {
     class Program
     {
+        static readonly char CACHE_SEPARATOR = ';';
+
         static void Main(string[] args)
         {
             const string datasetPath = @"../../images/";
+            const string cacheFile = @"../../cache.txt";
+
             const int scale = 5;
             const int samplingSizePx = 4;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var imageMap = BuildImageMapFromDataset(datasetPath, new Size(scale * (samplingSizePx), scale * (samplingSizePx)));
+            var imageMap = BuildImageMapFromDataset(datasetPath, new Size(scale * (samplingSizePx), scale * (samplingSizePx)), cacheFile);
 
             Image image = Image.FromFile(@"ascii-pineapple.jpg");
             Bitmap newImage = new Bitmap(image.Width * scale, image.Height * scale);
@@ -98,22 +104,56 @@ namespace _04_Photomosaics
             return closest;
         }
 
-        static IDictionary<Color, List<Tuple<Color, Bitmap>>> BuildImageMapFromDataset(string path, Size size)
+        static IDictionary<Color, List<Tuple<Color, Bitmap>>> BuildImageMapFromDataset(string datasetPath, Size size, string cachePath = "")
         {
             IDictionary<Color, List<Tuple<Color, Bitmap>>> imageMap = new Dictionary<Color, List<Tuple<Color, Bitmap>>>();
-            foreach (string file in Directory.GetFiles(path))
+            IDictionary<string, Color> existingCache = LoadColorCacheFromFile(cachePath);
+
+            foreach (string file in Directory.GetFiles(datasetPath))
             {
                 Bitmap bmp = new Bitmap(Image.FromFile(file), size);
-                Color average = GetAverageColor(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
+
+                bool isInCache = existingCache.ContainsKey(file);
+                Color average = isInCache ? existingCache[file] : GetAverageColor(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
                 Color cacheKey = RoundToColor(average);
+
                 if (!imageMap.ContainsKey(cacheKey))
                 {
                     imageMap.Add(cacheKey, new List<Tuple<Color, Bitmap>>());
                 }
 
                 imageMap[cacheKey].Add(new Tuple<Color, Bitmap>(average, bmp));
+
+                if (!isInCache)
+                {
+                    using (StreamWriter sw = File.AppendText(cachePath))
+                    {
+                        sw.WriteLine(average.R.ToString() + CACHE_SEPARATOR + average.G + CACHE_SEPARATOR + average.B + CACHE_SEPARATOR + file);
+                    }
+                }
             }
             return imageMap;
+        }
+
+        private static IDictionary<string, Color> LoadColorCacheFromFile(string cachePath)
+        {
+            // Disclaimer : not very effective because the average color calculation is very fast
+            // a better approach will be to lazy load the bitmaps when we need them
+
+
+            IDictionary<string, Color> cache = new Dictionary<string, Color>();
+            if (!File.Exists(cachePath))
+            {
+                File.Create(cachePath);
+            }
+
+            foreach (string line in File.ReadAllLines(cachePath))
+            {
+                string[] tokens = line.Split(CACHE_SEPARATOR);
+                cache.Add(tokens[3], Color.FromArgb(int.Parse(tokens[0]), int.Parse(tokens[1]), int.Parse(tokens[2])));
+            }
+
+            return cache;
         }
 
         private static Color RoundToColor(Color average)
