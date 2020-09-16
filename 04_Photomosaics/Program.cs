@@ -16,19 +16,21 @@ namespace _04_Photomosaics
     class Program
     {
         static readonly char CACHE_SEPARATOR = ';';
+        static IDictionary<string, Bitmap> imageCache = new Dictionary<string, Bitmap>();
+        static readonly int scale = 5;
+        static readonly int samplingSizePx = 4;
+        static Size size = new Size(scale* (samplingSizePx), scale* (samplingSizePx));
 
         static void Main(string[] args)
         {
             const string datasetPath = @"../../images/";
             const string cacheFile = @"../../cache.txt";
 
-            const int scale = 5;
-            const int samplingSizePx = 4;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var imageMap = BuildImageMapFromDataset(datasetPath, new Size(scale * (samplingSizePx), scale * (samplingSizePx)), cacheFile);
+            var imageMap = BuildImageMapFromDataset(datasetPath, cacheFile);
 
             Image image = Image.FromFile(@"ascii-pineapple.jpg");
             Bitmap newImage = new Bitmap(image.Width * scale, image.Height * scale);
@@ -54,10 +56,10 @@ namespace _04_Photomosaics
             Console.WriteLine(stopwatch.Elapsed);
         }
 
-        private static Bitmap FindClosestImageByColor(IDictionary<Color, List<Tuple<Color, Bitmap>>> imageMap, Color average)
+        private static Bitmap FindClosestImageByColor(IDictionary<Color, List<Tuple<Color, string>>> imageMap, Color average)
         {
             Color cacheKey = RoundToColor(average);
-            List<Tuple<Color, Bitmap>> entry = null;
+            List<Tuple<Color, string>> entry = null;
             int difference = int.MaxValue;
 
             if (imageMap.ContainsKey(cacheKey))
@@ -82,7 +84,7 @@ namespace _04_Photomosaics
 
             //double difference = double.MaxValue;
             difference = int.MaxValue;
-            Bitmap closest = null;
+            string closest = null;
 
             foreach (var item in entry)
             {
@@ -101,36 +103,48 @@ namespace _04_Photomosaics
                 }
             }
 
-            return closest;
+            if (!imageCache.ContainsKey(closest))
+            {
+                Bitmap bmp = new Bitmap(Image.FromFile(closest), size);
+                imageCache.Add(closest, bmp);
+            }
+
+            return imageCache[closest];
         }
 
-        static IDictionary<Color, List<Tuple<Color, Bitmap>>> BuildImageMapFromDataset(string datasetPath, Size size, string cachePath = "")
+        static IDictionary<Color, List<Tuple<Color, string>>> BuildImageMapFromDataset(string datasetPath, string cachePath = "")
         {
-            IDictionary<Color, List<Tuple<Color, Bitmap>>> imageMap = new Dictionary<Color, List<Tuple<Color, Bitmap>>>();
+            IDictionary<Color, List<Tuple<Color, string>>> imageMap = new Dictionary<Color, List<Tuple<Color, string>>>();
             IDictionary<string, Color> existingCache = LoadColorCacheFromFile(cachePath);
 
             foreach (string file in Directory.GetFiles(datasetPath))
             {
-                Bitmap bmp = new Bitmap(Image.FromFile(file), size);
-
-                bool isInCache = existingCache.ContainsKey(file);
-                Color average = isInCache ? existingCache[file] : GetAverageColor(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
-                Color cacheKey = RoundToColor(average);
-
-                if (!imageMap.ContainsKey(cacheKey))
+                Color average;
+                if (!existingCache.ContainsKey(file))
                 {
-                    imageMap.Add(cacheKey, new List<Tuple<Color, Bitmap>>());
-                }
+                    Bitmap bmp = new Bitmap(Image.FromFile(file), size);
+                    average = GetAverageColor(bmp, new Rectangle(0, 0, bmp.Width, bmp.Height));
 
-                imageMap[cacheKey].Add(new Tuple<Color, Bitmap>(average, bmp));
-
-                if (!isInCache)
-                {
                     using (StreamWriter sw = File.AppendText(cachePath))
                     {
                         sw.WriteLine(average.R.ToString() + CACHE_SEPARATOR + average.G + CACHE_SEPARATOR + average.B + CACHE_SEPARATOR + file);
                     }
+
+                    imageCache.Add(file, bmp);
                 }
+                else
+                {
+                    average = existingCache[file];
+                }
+
+                Color cacheKey = RoundToColor(average);
+
+                if (!imageMap.ContainsKey(cacheKey))
+                {
+                    imageMap.Add(cacheKey, new List<Tuple<Color, string>>());
+                }
+
+                imageMap[cacheKey].Add(new Tuple<Color, string>(average, file));
             }
             return imageMap;
         }
