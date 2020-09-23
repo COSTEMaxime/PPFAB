@@ -110,7 +110,35 @@ namespace _06_UserLogin
             Console.WriteLine("Enter login : ");
             login = Console.ReadLine();
             Console.WriteLine("Enter password : ");
-            password = Console.ReadLine();
+            password = GetPassword().ToString();
+        }
+
+        private static string GetPassword()
+        {
+            string password = "";
+            while (true)
+            {
+                ConsoleKeyInfo i = Console.ReadKey(true);
+                if (i.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                else if (i.Key == ConsoleKey.Backspace)
+                {
+                    if (password.Length > 0)
+                    {
+                        password = password.Remove(password.Length - 1, 1);
+                        Console.Write("\b \b");
+                    }
+                }
+                else if (i.KeyChar != '\u0000')
+                {
+                    // the key pressed does not correspond to a printable character
+                    password += (i.KeyChar);
+                    Console.Write("*");
+                }
+            }
+            return password;
         }
     }
 }
