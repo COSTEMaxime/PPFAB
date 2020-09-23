@@ -34,7 +34,6 @@ namespace _06_UserLogin
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
         }
 
-
         static void Main(string[] args)
         {
             Console.WriteLine("Enter login : ");
@@ -42,7 +41,7 @@ namespace _06_UserLogin
             Console.WriteLine("Enter password : ");
             string password = Console.ReadLine();
 
-            IsValidCredentials credentialValidator = new IsValidCredentials(FileCredentialChecker);
+            IsValidCredentials credentialValidator = new IsValidCredentials(DatabaseCredentialChecker);
 
             if (credentialValidator(login, password))
             {
@@ -77,6 +76,12 @@ namespace _06_UserLogin
         private static bool FileCredentialChecker(string login, string password)
         {
             return usersFromFile.ContainsKey(login) && usersFromFile[login] == hash(password);
+        }
+
+        private static bool DatabaseCredentialChecker(string login, string password)
+        {
+            var user = DAO.GetInstance().GetUserBylogin(login);
+            return user.Item2 == hash(password);
         }
     }
 }
