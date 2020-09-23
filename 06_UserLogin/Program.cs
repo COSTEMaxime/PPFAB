@@ -36,11 +36,30 @@ namespace _06_UserLogin
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter login : ");
-            string login = Console.ReadLine();
-            Console.WriteLine("Enter password : ");
-            string password = Console.ReadLine();
+            string login, password;
+            Console.WriteLine("=== SETUP ===");
+            Console.WriteLine("Recreate database ? (y/n)");
+            string userInput = Console.ReadLine();
+            if (userInput.StartsWith("y"))
+            {
+                DAO.GetInstance().DropAndCreateDb();
+            }
 
+            Console.WriteLine("Add a new user ? (y/n)");
+            userInput = Console.ReadLine();
+            while (userInput.StartsWith("y"))
+            {
+                AskForLoginAndPassword(out login, out password);
+                bool success = DAO.GetInstance().AddUser(login, hash(password));
+                Console.WriteLine(success ? "Success" : "Error");
+
+                Console.WriteLine("Add a new user ? (y/n)");
+                userInput = Console.ReadLine();
+            }
+
+
+            Console.WriteLine("=== LOGIN ===");
+            AskForLoginAndPassword(out login, out password);
             IsValidCredentials credentialValidator = new IsValidCredentials(DatabaseCredentialChecker);
 
             if (credentialValidator(login, password))
@@ -51,6 +70,8 @@ namespace _06_UserLogin
             {
                 Console.WriteLine("Login failed :(");
             }
+
+            Console.ReadLine();
         }
 
         private static bool HardcodedCredentialChecker(string login, string password)
@@ -82,6 +103,14 @@ namespace _06_UserLogin
         {
             var user = DAO.GetInstance().GetUserBylogin(login);
             return user.Item2 == hash(password);
+        }
+
+        private static void AskForLoginAndPassword(out string login, out string password)
+        {
+            Console.WriteLine("Enter login : ");
+            login = Console.ReadLine();
+            Console.WriteLine("Enter password : ");
+            password = Console.ReadLine();
         }
     }
 }
