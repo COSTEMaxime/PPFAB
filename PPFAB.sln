@@ -15,9 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_TicTacToeTest", "03_TicT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04_Photomosaics", "04_Photomosaics\04_Photomosaics.csproj", "{5EF72FFB-DDF8-49D0-9442-F12DA127D021}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05_Snake", "05_Snake\05_Snake.csproj", "{B941D471-93CA-4D26-A2A7-1FBF7966930E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05_Snake", "05_Snake\05_Snake.csproj", "{B941D471-93CA-4D26-A2A7-1FBF7966930E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05_SnakeTest", "05_SnakeTest\05_SnakeTest.csproj", "{C1AEEFEF-4DA7-4839-96F5-6D987731EE3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05_SnakeTest", "05_SnakeTest\05_SnakeTest.csproj", "{C1AEEFEF-4DA7-4839-96F5-6D987731EE3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06_UserLogin", "06_UserLogin\06_UserLogin.csproj", "{283932D2-1DF4-4306-8E43-09C470CE6DB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{C1AEEFEF-4DA7-4839-96F5-6D987731EE3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1AEEFEF-4DA7-4839-96F5-6D987731EE3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1AEEFEF-4DA7-4839-96F5-6D987731EE3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{283932D2-1DF4-4306-8E43-09C470CE6DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{283932D2-1DF4-4306-8E43-09C470CE6DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{283932D2-1DF4-4306-8E43-09C470CE6DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{283932D2-1DF4-4306-8E43-09C470CE6DB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
