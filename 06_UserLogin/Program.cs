@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace _06_UserLogin
 {
@@ -28,6 +26,15 @@ namespace _06_UserLogin
             { "mySecureAccount", "jw4vduIrQ+KFUYmHfn3B4efZjCJsldskfNHVR5KDNKk=" },
         };
 
+        static readonly IDictionary<string, string> usersFromFile = LoadFromFile("data.json");
+
+        private static IDictionary<string, string> LoadFromFile(string file)
+        {
+            string content = File.ReadAllText(file);
+            return JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+        }
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("Enter login : ");
@@ -35,7 +42,7 @@ namespace _06_UserLogin
             Console.WriteLine("Enter password : ");
             string password = Console.ReadLine();
 
-            IsValidCredentials credentialValidator = new IsValidCredentials(hashCredentialChecker);
+            IsValidCredentials credentialValidator = new IsValidCredentials(FileCredentialChecker);
 
             if (credentialValidator(login, password))
             {
@@ -47,17 +54,17 @@ namespace _06_UserLogin
             }
         }
 
-        private static bool hardcodedCredentialChecker(string login, string password)
+        private static bool HardcodedCredentialChecker(string login, string password)
         {
             return login == "robert" && password == "password123";
         }
 
-        private static bool dictionaryCredentialChecker(string login, string password)
+        private static bool DictionaryCredentialChecker(string login, string password)
         {
             return users.ContainsKey(login) && users[login] == password;
         }
 
-        private static bool hashCredentialChecker(string login, string password)
+        private static bool HashCredentialChecker(string login, string password)
         {
             return usersHash.ContainsKey(login) && usersHash[login] == hash(password);
         }
@@ -65,6 +72,11 @@ namespace _06_UserLogin
         private static string hash(string input)
         {
             return Convert.ToBase64String(new SHA256Managed().ComputeHash(Encoding.UTF8.GetBytes(input)));
+        }
+
+        private static bool FileCredentialChecker(string login, string password)
+        {
+            return usersFromFile.ContainsKey(login) && usersFromFile[login] == hash(password);
         }
     }
 }
